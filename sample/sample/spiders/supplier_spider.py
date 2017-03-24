@@ -22,10 +22,10 @@ class Company(scrapy.Item):
     addr_type = Field()
 
 class MySpider(CrawlSpider):
-    name = "goszakup"
+    name = "supplier_spider"
 
     def start_requests(self):
-        for i in range(1, 2):
+        for i in range(1, 2): # na samom dele 714 stranic
             url = "https://v3bl.goszakup.gov.kz/ru/register/supplierreg?name_bin_iin_rnn=&country=&region_supplier=19&attribute=3&is_supplier=1&page=%d" % i
             request = scrapy.Request(url, callback=self.parse_page)
             yield request
@@ -53,19 +53,17 @@ class MySpider(CrawlSpider):
             # for title in titles:
             item = Company()
             item['BIN'] = table.select("tr")[4].select("td")[0].text
-            #item['RNN'] = table.select("tr")[5].select("td")[0].text
-           # item['name_kaz'] = table.select ("tr")[6].select("td")[0].text
-           # item['name_rus'] = table.select("tr")[7].select("td")[0].text
-           # item['resid'] = table.select("tr")[8].select("td")[0].text
-            #item['kato'] = table.select("tr")[9].select("td")[0].text
-            table1 = soup.select("div.panel-body")[0]
+            item['RNN'] = table.select("tr")[5].select("td")[0].text
+            item['name_kaz'] = table.select ("tr")[6].select("td")[0].text
+            item['name_rus'] = table.select("tr")[7].select("td")[0].text
+            item['resid'] = table.select("tr")[8].select("td")[0].text
+            item['kato'] = table.select("tr")[9].select("td")[0].text
+            table1 = soup.select("table.table-striped")[2]
             item['IIN'] = table1.select("tr")[0].select("td")[0].text
-           # item['RNN1'] = titles[2].xpath('div[@class="panel-body"]/table/tr[2]/td/text()').extract()
-           # item['FIO'] = titles[2].xpath('div[@class="panel-body"]/table/tr[3]/td/text()').extract_first().encode('utf-8')
-           # item['full_addr_rus'] = titles[3].xpath(
-           # 'div[@class="panel-body"]/table/tr[2]/td[3]/text()').extract_first().encode('utf-8')
-           # item['full_addr_kaz'] = titles[3].xpath(
-           # 'div[@class="panel-body"]/table/tr[2]/td[4]/text()').extract_first().encode('utf-8')
-           # item['addr_type'] = titles[3].xpath(
-           # 'div[@class="panel-body"]/table/tr[2]/td[5]/text()').extract_first().encode('utf-8')
+            item['RNN1'] = table1.select("tr")[1].select("td")[0].text
+            item['FIO'] = table1.select("tr")[2].select("td")[0].text
+            table2 = soup.select("table.table-striped")[3]
+            item['full_addr_rus'] = table2.select("tr")[1].select("td")[2].text
+            item['full_addr_kaz'] = table2.select("tr")[1].select("td")[3].text.encode('utf-8') #vse ravno russkii ne chitaet
+            item['addr_type'] = table2.select("tr")[1].select("td")[4].text.encode('utf-8')
             yield item
