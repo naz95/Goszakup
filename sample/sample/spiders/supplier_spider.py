@@ -26,7 +26,8 @@ class MySpider(CrawlSpider):
 
     def start_requests(self):
         for i in range(1, 2): # na samom dele 714 stranic
-            url = "https://v3bl.goszakup.gov.kz/ru/register/supplierreg?name_bin_iin_rnn=&country=&region_supplier=19&attribute=3&is_supplier=1&page=%d" % i
+            #url = "https://v3bl.goszakup.gov.kz/ru/register/supplierreg?name_bin_iin_rnn=&country=&region_supplier=19&attribute=3&is_supplier=1&page=%d" % i
+            url="https://v3bl.goszakup.gov.kz/ru/register/supplierreg?name_bin_iin_rnn=&country=&region_supplier=&attribute=3&is_supplier=1&page=%d" % i
             request = scrapy.Request(url, callback=self.parse_page)
             yield request
 
