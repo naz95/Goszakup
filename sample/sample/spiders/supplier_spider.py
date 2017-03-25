@@ -54,11 +54,11 @@ class MySpider(CrawlSpider):
             # for title in titles:
             item = Company()
             item['BIN'] = table.select("tr")[4].select("td")[0].text
-            item['RNN'] = table.select("tr")[5].select("td")[0].text
-            item['name_kaz'] = table.select ("tr")[6].select("td")[0].text
-            item['name_rus'] = table.select("tr")[7].select("td")[0].text
-            item['resid'] = table.select("tr")[8].select("td")[0].text
-            item['kato'] = table.select("tr")[9].select("td")[0].text
+            item['RNN'] = table.select("tr")[6].select("td")[0].text
+            item['name_kaz'] = table.select ("tr")[7].select("td")[0].text
+            item['name_rus'] = table.select("tr")[8].select("td")[0].text
+            item['resid'] = table.select("tr")[9].select("td")[0].text
+            item['kato'] = table.select("tr")[10].select("td")[0].text
             table1 = soup.select("table.table-striped")[2]
             item['IIN'] = table1.select("tr")[0].select("td")[0].text
             item['RNN1'] = table1.select("tr")[1].select("td")[0].text
